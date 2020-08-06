@@ -1,40 +1,49 @@
-# Overview
-This repository contains all the code needed to complete the final project for the Localization course in Udacity's Self-Driving Car Nanodegree.
+# Localization project - Particle filter
 
-#### Submission
-All you will need to submit is your `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time).
+The main goal of this project is to estimate the car's position using 2 dimensional particle filter in C++. Here the program communicates with Udacity Term 2 simulator via uWebSocketIO protocol. Particle filter is a continuous state estimation which is commonly used in localization. Unlike Kalman filter, it can deal with non linear function and don't necessarily need to follow the assumption of Gaussian distribution. 
 
 ## Project Introduction
-Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
+
+The vehicle has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
 In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
 
+## Pipeline of particle filter
+
+1. Decide a suitable number of particles, time step, and define the noise from sensor datasheets(standard deviation or variance). 
+
+2. Initialize the position of the vehicle with GPS information. Here three components(x,y coordinates and headings) are sampled from normal distribution. Though the accuracy of GPS reading is around 10 meters and usually not precise enough for localization of self driving cars, it can serve as a fast starting point of the filter. 
+
+3. Make prediction based on previous state, the motion model(bycycle model) and control data.
+
+4. Receive sensor data from the simulator and transform into useful observation format. Since the car coordinate system is defined differently from the map coordinate system, we need to apply homogeneous transformation matrix to explicitly convert the coordinates.
+
+5. Associate landmark observations with the closest landmark on the map(Nearest neighbor method). For instance, we obtain a lidar reading and need to associate it with an actual landmark in the real world. 
+
+6. Apply the multivariate Gaussian probability density function, update the weights of each particle and calculate the posterior probability. Here we assume that each measurements and observations are independent, meaning that the final weight of a single particle can be determined by the product of probability density. 
+
+7. Resample a new set of particles from current particles based on their weights. Particles with higher weights have higher probability of being picked. 
+
+8. Repeat step 3. to 7. to acquire high density of particles and accurate localization.  
+
+
+## Reflection and discussion 
+
+1. Data association 
+
+Currently nearest neighbor method is implemented in the code. It's easy to understand and put into practice. However there are some disadvantages. For example, it does not take the sensor noise into account. Some errouneous detection might be included. It can also be influenced by the noise from the prediction step. Moreover, it is very inefficient when there are a lot of map landmarks and sensor measurements. More robust approaches can be consider to improve the accuracy. 
+
+
+2. Resampling 
+
+The objective of this step is to create a new set of particles with higher likelihood.
+
+3. Error evaluation
+
+Given the ground truth position of the moving vehicle, we are able to calculate the root squred error for evalutation. Usually the difference between 
+
+
 ## Running the Code
-This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
-
-This repository includes two files that can be used to set up and install uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
-
-Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
-
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make
-5. ./particle_filter
-
-Alternatively some scripts have been included to streamline this process, these can be leveraged by executing the following in the top directory of the project:
-
-1. ./clean.sh
-2. ./build.sh
-3. ./run.sh
-
-Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
-
-Note that the programs that need to be written to accomplish the project are src/particle_filter.cpp, and particle_filter.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
-
-Here is the main protocol that main.cpp uses for uWebSocketIO in communicating with the simulator.
 
 INPUT: values provided by the simulator to the c++ program
 
@@ -81,13 +90,6 @@ OUTPUT: values provided by the c++ program to the simulator
 
 ["best_particle_sense_y"] <= list of sensed y positions
 
-
-Your job is to build out the methods in `particle_filter.cpp` until the simulator output says:
-
-```
-Success! Your particle filter passed!
-```
-
 # Implementing the Particle Filter
 The directory structure of this repository is as follows:
 
@@ -129,15 +131,4 @@ You can find the inputs to the particle filter in the `data` directory.
 
 > * Map data provided by 3D Mapping Solutions GmbH.
 
-## Success Criteria
-If your particle filter passes the current grading code in the simulator (you can make sure you have the current version at any time by doing a `git pull`), then you should pass!
 
-The things the grading code is looking for are:
-
-
-1. **Accuracy**: your particle filter should localize vehicle position and yaw to within the values specified in the parameters `max_translation_error` and `max_yaw_error` in `src/main.cpp`.
-
-2. **Performance**: your particle filter should complete execution within the time of 100 seconds.
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
