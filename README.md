@@ -8,9 +8,15 @@ The vehicle has been kidnapped and transported to a new location! Luckily it has
 
 In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. This is also known as Monte Carlo localization.
 
+### Given map
+`/data/map_data.txt` includes the position of landmarks (in meters) on an arbitrary Cartesian coordinate system. Each row has three columns
+1. x position
+2. y position
+3. landmark id
+
 ## Pipeline of particle filter
 
-<img src="/image/steps.png" alt="steps" title="steps" width="500" height="250" />
+<img src="/image/steps.png" alt="steps" title="steps" width="600" height="350" />
 
 1. Decide a suitable number of particles, time step, and define the noise from sensor datasheets(standard deviation or variance). 
 
@@ -28,7 +34,7 @@ In this project you will implement a 2 dimensional particle filter in C++. Your 
 
 8. Repeat step 3. to 7. to acquire high density of particles and accurate localization.  
 
-<img src="/image/result2.png" alt="success" title="success" width="500" height="250" />
+<img src="/image/result2.png" alt="success" title="success" width="600" height="350" />
 
 ## Reflection and discussion 
 
@@ -54,95 +60,8 @@ The objective of resampling is to generate a new set of particles with probabili
 
 Given the ground truth position of the moving vehicle, we are able to calculate the root squared error for evalutation. Usually the difference between ground truth and estimated position should be around 10 centimeters to be categorize as a good localization algorithm.
 
-<img src="/image/eq1.png" alt="error" title="error" width="350" height="120" />
+<img src="/image/eq1.png" alt="error" title="error" width="400" height="120" />
 
 
-## Running the Code
-
-INPUT: values provided by the simulator to the c++ program
-
-// sense noisy position data from the simulator
-
-["sense_x"]
-
-["sense_y"]
-
-["sense_theta"]
-
-// get the previous velocity and yaw rate to predict the particle's transitioned state
-
-["previous_velocity"]
-
-["previous_yawrate"]
-
-// receive noisy observation data from the simulator, in a respective list of x/y values
-
-["sense_observations_x"]
-
-["sense_observations_y"]
-
-
-OUTPUT: values provided by the c++ program to the simulator
-
-// best particle values used for calculating the error evaluation
-
-["best_particle_x"]
-
-["best_particle_y"]
-
-["best_particle_theta"]
-
-//Optional message data used for debugging particle's sensing and associations
-
-// for respective (x,y) sensed positions ID label
-
-["best_particle_associations"]
-
-// for respective (x,y) sensed positions
-
-["best_particle_sense_x"] <= list of sensed x positions
-
-["best_particle_sense_y"] <= list of sensed y positions
-
-# Implementing the Particle Filter
-The directory structure of this repository is as follows:
-
-```
-root
-|   build.sh
-|   clean.sh
-|   CMakeLists.txt
-|   README.md
-|   run.sh
-|
-|___data
-|   |   
-|   |   map_data.txt
-|   
-|   
-|___src
-    |   helper_functions.h
-    |   main.cpp
-    |   map.h
-    |   particle_filter.cpp
-    |   particle_filter.h
-```
-
-The only file you should modify is `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. Read through the code, the comments, and the header file `particle_filter.h` to get a sense for what this code is expected to do.
-
-If you are interested, take a look at `src/main.cpp` as well. This file contains the code that will actually be running your particle filter and calling the associated methods.
-
-## Inputs to the Particle Filter
-You can find the inputs to the particle filter in the `data` directory.
-
-#### The Map*
-`map_data.txt` includes the position of landmarks (in meters) on an arbitrary Cartesian coordinate system. Each row has three columns
-1. x position
-2. y position
-3. landmark id
-
-### All other data the simulator provides, such as observations and controls.
-
-> * Map data provided by 3D Mapping Solutions GmbH.
 
 
