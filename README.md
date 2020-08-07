@@ -10,7 +10,7 @@ In this project you will implement a 2 dimensional particle filter in C++. Your 
 
 ## Pipeline of particle filter
 
-<img src="/image/steps" alt="steps" title="steps" width="150" height="100" />
+<img src="/image/steps.png" alt="steps" title="steps" width="150" height="100" />
 
 1. Decide a suitable number of particles, time step, and define the noise from sensor datasheets(standard deviation or variance). 
 
@@ -28,7 +28,7 @@ In this project you will implement a 2 dimensional particle filter in C++. Your 
 
 8. Repeat step 3. to 7. to acquire high density of particles and accurate localization.  
 
-<img src="/image/result2" alt="success" title="success" width="150" height="100" />
+<img src="/image/result2.png" alt="success" title="success" width="150" height="100" />
 
 ## Reflection and discussion 
 
@@ -54,7 +54,7 @@ The objective of resampling is to generate a new set of particles with probabili
 
 Given the ground truth position of the moving vehicle, we are able to calculate the root squared error for evalutation. Usually the difference between ground truth and estimated position should be around 10 centimeters to be categorize as a good localization algorithm.
 
-<img src="/image/eq1" alt="error" title="error" width="150" height="100" />
+<img src="/image/eq1.png" alt="error" title="error" width="150" height="100" />
 
 
 ## Running the Code
