@@ -6,7 +6,7 @@ The main goal of this project is to estimate the car's position using 2 dimensio
 
 The vehicle has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. This is also known as Monte Carlo localization.
+In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. Particles propagate based on the motion model and their weights are updated according to the observation. This is also known as Monte Carlo localization.
 
 ### Given map
 `/data/map_data.txt` includes the position of landmarks (in meters) on an arbitrary Cartesian coordinate system. Each row has three columns
