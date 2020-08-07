@@ -51,7 +51,7 @@ Currently nearest neighbor method is implemented in the code. It's easy to under
 
 Use a distribution function g(x)(e.g. Gaussian distribution) that you already know how to sample from it. Sample from this function. Obviously the sampling won't be perfect and there will be a difference between the target function`f(x)` and the selected function. Account for this difference by assigning a importance weight `w(x) = f(x)/ g(x)` to each sample. This is the underlying concept of particle filter.
 
-- Resampling wheel
+- Resampling wheel(similar to Stochastic Universal Sampling)
 
 The objective of resampling is to generate a new set of particles with probability proportional to their weights. Since we can only have finite number of particles, a method called resampling wheel(linear time complexity) is implemented in the code. It starts with initializing two variables, BETA and index of weights. If the value of BETA is smaller than the weight at that index, we select the particle at that index. Otherwise we keep increasing the index by 1 and decreasing BETA until the condition is satisfied or we obtain enough number of particles. 
 
